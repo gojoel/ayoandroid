@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "index": 0,
+    "title": "Getting Started"
+  },
+  {
+    "id": 2,
+    "index": 1,
+    "title": "Kotlin Basics"
+  },
+  {
+    "id": 3,
+    "index": 2,
+    "title": "Jetpack Compose"
+  },
+  {
+    "id": 4,
+    "index": 3,
+    "title": "Architecture & Best Practices"
+  }
+]

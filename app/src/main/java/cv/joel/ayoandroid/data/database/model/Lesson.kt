@@ -5,6 +5,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import kotlinx.serialization.Serializable
 
 @Entity(
     tableName = "lessons",
@@ -26,6 +27,7 @@ import androidx.room.PrimaryKey
     ]
 )
 @Immutable
+@Serializable
 data class Lesson(
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "lessonId") val id: Long = 0,
     @ColumnInfo(name = "index") val index: Int,

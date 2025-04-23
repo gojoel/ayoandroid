@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.compose)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -50,6 +51,7 @@ dependencies {
     implementation(libs.androidx.collection.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation(libs.androidx.work.runtime)
 
     // Compose
     implementation(libs.androidx.activity.compose)
@@ -58,7 +60,6 @@ dependencies {
     implementation(libs.androidx.lifecycle)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)
-
     implementation(libs.androidx.compose.material.iconsExtended)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
@@ -67,12 +68,14 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.material.icons)
 
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.constraintlayout)
 
     // Dependency injection
     implementation(libs.hilt.android)
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.constraintlayout)
+    implementation(libs.hilt.work)
     ksp(libs.hilt.compiler)
+    ksp(libs.hilt.ext.compiler)
 
     // Database
     implementation(libs.androidx.room.runtime)
@@ -80,6 +83,7 @@ dependencies {
     ksp(libs.androidx.room.compiler)
 
     implementation(libs.kotlinx.collections.immutable)
+    implementation(libs.kotlinx.serialization)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
