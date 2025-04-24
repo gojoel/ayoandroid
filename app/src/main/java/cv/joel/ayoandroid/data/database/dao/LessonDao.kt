@@ -7,7 +7,10 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 abstract class LessonDao : BaseDao<Lesson> {
-    
+
     @Query("SELECT * FROM lessons")
     abstract fun getAllLessons(): Flow<List<Lesson>>
+
+    @Query("SELECT * FROM lessons WHERE lessonId = :id")
+    abstract fun getLessonById(id: Long): Flow<Lesson>
 }

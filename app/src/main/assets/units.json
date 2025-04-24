@@ -1,30 +1,30 @@
 [
   {
-    "id": 1,
+    "id": 0,
     "index": 0,
     "title": "Introduction to Android",
     "summary": "Learn the basics of Android app structure and the tools used.",
-    "sectionId": "1"
+    "sectionId": 0
+  },
+  {
+    "id": 1,
+    "index": 0,
+    "title": "Kotlin Fundamentals",
+    "summary": "Master the core syntax and features of the Kotlin language.",
+    "sectionId": 1
   },
   {
     "id": 2,
     "index": 0,
-    "title": "Kotlin Fundamentals",
-    "summary": "Master the core syntax and features of the Kotlin language.",
-    "sectionId": "2"
+    "title": "Building UIs with Compose",
+    "summary": "Use Jetpack Compose to build modern and responsive UIs.",
+    "sectionId": 2
   },
   {
     "id": 3,
     "index": 0,
-    "title": "Building UIs with Compose",
-    "summary": "Use Jetpack Compose to build modern and responsive UIs.",
-    "sectionId": "3"
-  },
-  {
-    "id": 4,
-    "index": 0,
     "title": "Modern Android Architecture",
     "summary": "Apply MVVM, DI, and repository patterns in scalable Android apps.",
-    "sectionId": "4"
+    "sectionId": 3
   }
 ]

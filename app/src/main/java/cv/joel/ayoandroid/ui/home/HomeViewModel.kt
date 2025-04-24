@@ -4,7 +4,9 @@ import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cv.joel.ayoandroid.data.database.model.Lesson
-import cv.joel.ayoandroid.data.repository.LessonStore
+import cv.joel.ayoandroid.data.database.model.LessonUnit
+import cv.joel.ayoandroid.data.database.model.Section
+import cv.joel.ayoandroid.data.repository.SectionStore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
@@ -16,14 +18,17 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.max
 
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val lessonStore: LessonStore) : ViewModel() {
+class HomeViewModel @Inject constructor(
+    private val sectionStore: SectionStore
+) : ViewModel() {
 
     private val _state = MutableStateFlow(HomeUiState())
 
-    private val lessons = lessonStore.getLessons()
+    private val sectionData = sectionStore.getSectionData()
         .shareIn(viewModelScope, SharingStarted.WhileSubscribed())
 
     val state: StateFlow<HomeUiState>
@@ -31,8 +36,20 @@ class HomeViewModel @Inject constructor(private val lessonStore: LessonStore) : 
 
     init {
         viewModelScope.launch {
-            lessons.collectLatest {
-                _state.value = HomeUiState(loading = false, lessons = it.toPersistentList())
+
+            sectionData.collectLatest {
+
+                val sections = it.map { it.section }.toPersistentList()
+                val lessons =
+                    it.flatMap { it.unitLessons }.flatMap { it.lessons }.toPersistentList()
+                val currentLessonIndex = max(lessons.indexOfFirst { !it.completed } - 1, 0)
+
+                _state.value = HomeUiState(
+                    loading = false,
+                    sections = sections,
+                    lessons = lessons,
+                    currentLessonIndex = currentLessonIndex
+                )
             }
         }
     }
@@ -41,6 +58,9 @@ class HomeViewModel @Inject constructor(private val lessonStore: LessonStore) : 
     data class HomeUiState(
         val loading: Boolean = true,
         val error: Boolean = false,
+        val currentLessonIndex: Int = 0,
+        val sections: PersistentList<Section> = persistentListOf(),
+        val units: PersistentList<LessonUnit> = persistentListOf(),
         val lessons: PersistentList<Lesson> = persistentListOf()
     )
 }

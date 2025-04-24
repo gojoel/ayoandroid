@@ -4,13 +4,15 @@ import androidx.compose.runtime.Immutable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.serialization.Serializable
 
 @Entity(
     tableName = "sections"
 )
 @Immutable
+@Serializable
 data class Section(
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "sectionId") val id: Long = 0,
+    @PrimaryKey @ColumnInfo(name = "sectionId") val id: Long,
     @ColumnInfo(name = "index") val index: Int,
     @ColumnInfo(name = "title") val title: String
 )

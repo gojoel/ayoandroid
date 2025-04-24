@@ -8,7 +8,7 @@ data class SectionUnitLessons(
     @Relation(
         entity = LessonUnit::class,
         parentColumn = "sectionId",
-        entityColumn = "unitId"
+        entityColumn = "sectionId"
     )
     val unitLessons: List<UnitLessons>
 )

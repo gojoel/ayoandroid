@@ -1,7 +1,6 @@
 package cv.joel.ayoandroid.ui.home
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.animation.core.EaseInOutSine
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -18,10 +17,13 @@ import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -59,21 +61,13 @@ import kotlinx.coroutines.launch
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun HomeScreen(onLessonClick: (String) -> Unit) {
+fun HomeScreen(onLessonClick: (Long) -> Unit) {
 
     val viewModel = hiltViewModel<HomeViewModel>()
 
-    val uiState = viewModel.state.collectAsStateWithLifecycle()
-    Log.d("DEBUG_STATE", uiState.toString())
+    val uiState by viewModel.state.collectAsStateWithLifecycle()
+    val lessons = uiState.lessons
 
-    val lessons = List(20) { index ->
-        val id = "lesson${index + 1}"
-        val title = "Lesson ${index + 1}"
-        val isUnlocked = index <= 5
-        Triple(id, title, isUnlocked)
-    }
-
-    val currentLessonIndex = lessons.indexOfFirst { it.third && lessons.indexOf(it) >= 5 }
     val scrollState = rememberScrollState()
     val coroutineScope = rememberCoroutineScope()
     val itemHeightPx = with(LocalDensity.current) { (200 + 48).dp.toPx().toInt() }
@@ -111,7 +105,7 @@ fun HomeScreen(onLessonClick: (String) -> Unit) {
     val viewportHeightPx = with(LocalDensity.current) { 600.dp.toPx() }.toInt()
 
     val currentLessonOffset =
-        remember { derivedStateOf { if (currentLessonIndex >= 0) currentLessonIndex * itemHeightPx else 0 } }
+        remember { derivedStateOf { if (uiState.currentLessonIndex >= 0) uiState.currentLessonIndex * itemHeightPx else 0 } }
     val showScrollToCurrentButton by derivedStateOf {
         val currentOffset = currentLessonOffset.value
         val visibleTop = scrollState.value
@@ -140,9 +134,8 @@ fun HomeScreen(onLessonClick: (String) -> Unit) {
                     contentDescription = null,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(
-                            top = 48.dp,
-                        )
+                        .padding(WindowInsets.statusBars.asPaddingValues())
+                        .padding(top = 16.dp)
                 )
 
                 Column(
@@ -171,8 +164,7 @@ fun HomeScreen(onLessonClick: (String) -> Unit) {
                 verticalArrangement = Arrangement.spacedBy(48.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                lessons.forEachIndexed { index, (id, title, isUnlocked) ->
-                    val isCompleted = index < 5
+                lessons.forEachIndexed { index, lesson ->
                     val alignment =
                         if (index % 2 == 0) Alignment.CenterStart else Alignment.CenterEnd
 
@@ -200,10 +192,10 @@ fun HomeScreen(onLessonClick: (String) -> Unit) {
                         contentAlignment = alignment
                     ) {
                         LessonNodeFancy(
-                            title = title,
-                            isUnlocked = isUnlocked,
-                            isCompleted = isCompleted,
-                            onClick = { onLessonClick(id) }
+                            title = lesson.title,
+                            isUnlocked = index == uiState.currentLessonIndex,
+                            isCompleted = lesson.completed,
+                            onClick = { onLessonClick(lesson.id) }
                         )
                     }
                 }
@@ -255,8 +247,6 @@ fun LessonNodeFancy(
         label = "scaleAnim"
     )
 
-    val isCurrent = isUnlocked && !isCompleted
-
     val infiniteTransition = rememberInfiniteTransition(label = "glow-ring")
     val ringAlpha by infiniteTransition.animateFloat(
         initialValue = 0.3f,
@@ -290,7 +280,7 @@ fun LessonNodeFancy(
             ),
         contentAlignment = Alignment.Center
     ) {
-        if (isCurrent) {
+        if (isUnlocked) {
             Box(
                 modifier = Modifier
                     .size(220.dp * ringScale)

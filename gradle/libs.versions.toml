@@ -11,14 +11,21 @@ activity = "1.10.1"
 constraintlayout = "2.1.4"
 composeBom = "2025.02.00"
 activityCompose = "1.10.0"
-hilt = "2.51.1"
+hilt = "2.55"
+hilt-work = "1.2.0"
+hilt-ext = "1.2.0"
 androidx-navigation = "2.8.7"
 ksp = "2.1.10-1.0.30"
 room = "2.6.1"
 lifecycle = "2.8.7"
 androidxHiltNavigationCompose = "1.2.0"
+androidx-lifecycle-runtime-compose = "2.8.7"
+androidx-lifecycle-compose = "2.8.7"
 collectionKtx = "1.5.0"
 kotlinx-immutable = "0.3.8"
+kotlinx-serialization = "1.7.3"
+work-runtime = "2.10.0"
+androidx-compose-fonts = "1.7.8"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -33,15 +40,22 @@ androidx-navigation-compose = { module = "androidx.navigation:navigation-compose
 androidx-compose-material-iconsExtended = { module = "androidx.compose.material:material-icons-extended" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
+hilt-ext-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hilt-ext" }
+hilt-work = { module = "androidx.hilt:hilt-work", version.ref = "hilt-work" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidx-collection-ktx = { module = "androidx.collection:collection-ktx", version.ref = "collectionKtx" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 androidx-lifecycle = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
+androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle-runtime-compose" }
+androidx-lifecycle-viewModelCompose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle-compose" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle-compose" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+androidx-ui-compose-fonts = { module = "androidx.compose.ui:ui-text-google-fonts", version.ref = "androidx-compose-fonts" }
 
+androidx-work-runtime = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work-runtime" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 androidx-compose-ui = { module = "androidx.compose.ui:ui" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
@@ -51,10 +65,12 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 androidx-material-icons = { group = "androidx.compose.material", name = "material-icons-extended" }
 
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx-immutable" }
+kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

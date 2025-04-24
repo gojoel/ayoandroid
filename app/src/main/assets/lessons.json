@@ -1,98 +1,28 @@
 [
   {
-    "id": 1,
+    "id": 0,
     "index": 0,
-    "title": "What is Android?",
-    "unitId": "1",
-    "sectionId": "1",
-    "completed": false
-  },
-  {
-    "id": 2,
-    "index": 1,
-    "title": "Android Studio Setup",
-    "unitId": "1",
-    "sectionId": "1",
-    "completed": false
-  },
-  {
-    "id": 3,
-    "index": 2,
-    "title": "Project Structure Overview",
-    "unitId": "1",
-    "sectionId": "1",
-    "completed": false
-  },
-  {
-    "id": 4,
-    "index": 0,
-    "title": "Variables and Types in Kotlin",
-    "unitId": "2",
-    "sectionId": "2",
-    "completed": false
-  },
-  {
-    "id": 5,
-    "index": 1,
-    "title": "Control Flow and Functions",
-    "unitId": "2",
-    "sectionId": "2",
-    "completed": false
-  },
-  {
-    "id": 6,
-    "index": 2,
-    "title": "Kotlin Collections and Lambdas",
-    "unitId": "2",
-    "sectionId": "2",
-    "completed": false
-  },
-  {
-    "id": 7,
-    "index": 0,
-    "title": "Composables and Modifiers",
-    "unitId": "3",
-    "sectionId": "3",
-    "completed": false
-  },
-  {
-    "id": 8,
-    "index": 1,
-    "title": "Layouts and Theming",
-    "unitId": "3",
-    "sectionId": "3",
-    "completed": false
-  },
-  {
-    "id": 9,
-    "index": 2,
-    "title": "State and Effect APIs",
-    "unitId": "3",
-    "sectionId": "3",
-    "completed": false
-  },
-  {
-    "id": 10,
-    "index": 0,
-    "title": "MVVM and ViewModel",
-    "unitId": "4",
-    "sectionId": "4",
-    "completed": false
-  },
-  {
-    "id": 11,
-    "index": 1,
-    "title": "Using Hilt for Dependency Injection",
-    "unitId": "4",
-    "sectionId": "4",
-    "completed": false
-  },
-  {
-    "id": 12,
-    "index": 2,
-    "title": "Repository Pattern and UI State",
-    "unitId": "4",
-    "sectionId": "4",
-    "completed": false
+    "unitId": 0,
+    "completed": false,
+    "title": "Writing Your First Kotlin Function",
+    "type": "fill_in_the_blank",
+    "objective": "Understand Kotlin function syntax and string interpolation.",
+    "prompt": "Fill in the missing parts of the function below to complete the greeting function.",
+    "codeTemplate": "____ greetUser(____: String): String {\n    return \"Hello, $____!\"\n}",
+    "blanks": 3,
+    "options": [
+      "fun",
+      "name",
+      "name",
+      "val",
+      "greet"
+    ],
+    "correctAnswers": [
+      "fun",
+      "name",
+      "name"
+    ],
+    "explanationCorrect": "🚀 Great job! You wrote your first function!",
+    "explanationIncorrect": "🤔 Not quite. Remember: start with `fun`, define a parameter, and use `$name` inside the string."
   }
 ]

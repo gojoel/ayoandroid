@@ -67,6 +67,10 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.material.icons)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.viewModelCompose)
+    implementation(libs.androidx.ui.compose.fonts)
 
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
