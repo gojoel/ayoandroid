@@ -18,7 +18,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.math.max
 
 
 @HiltViewModel
@@ -42,7 +41,7 @@ class HomeViewModel @Inject constructor(
                 val sections = it.map { it.section }.toPersistentList()
                 val lessons =
                     it.flatMap { it.unitLessons }.flatMap { it.lessons }.toPersistentList()
-                val currentLessonIndex = max(lessons.indexOfFirst { !it.completed } - 1, 0)
+                val currentLessonIndex = lessons.indexOfFirst { !it.completed }
 
                 _state.value = HomeUiState(
                     loading = false,

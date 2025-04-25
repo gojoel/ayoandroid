@@ -27,7 +27,7 @@ data class Lesson(
     @ColumnInfo(name = "title") val title: String,
     @ColumnInfo(name = "unitId") val unitId: Long,
     @ColumnInfo(name = "completed") val completed: Boolean = false,
-    @ColumnInfo(name = "type") val type: String,
+    @ColumnInfo(name = "type") val type: LessonType,
     @ColumnInfo(name = "objective") val objective: String,
     @ColumnInfo(name = "prompt") val prompt: String,
     @ColumnInfo(name = "codeTemplate") val codeTemplate: String,

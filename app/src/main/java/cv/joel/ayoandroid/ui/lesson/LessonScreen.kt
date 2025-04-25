@@ -21,12 +21,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import cv.joel.ayoandroid.R
+import cv.joel.ayoandroid.data.database.model.LessonType
 
 @Composable
 fun LessonScreen(
@@ -34,12 +37,27 @@ fun LessonScreen(
     onBack: () -> Unit,
 ) {
     val viewModel = hiltViewModel<LessonViewModel>()
-    val lesson by viewModel.lesson.collectAsStateWithLifecycle()
+    val uiState by viewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(lessonId) {
         viewModel.loadLesson(lessonId)
     }
 
+    if (uiState.complete) {
+        LessonCompleteView(onContinue = onBack)
+        return
+    }
+
+    LessonContent(uiState = uiState, onLessonAction = {
+        when (it) {
+            is LessonAction.OnNavigateUp -> onBack()
+            else -> viewModel.onLessonAction(it)
+        }
+    })
+}
+
+@Composable
+fun LessonContent(uiState: LessonViewModel.LessonUiState, onLessonAction: (LessonAction) -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -50,14 +68,14 @@ fun LessonScreen(
             )
     ) {
         IconButton(
-            onClick = onBack,
+            onClick = { onLessonAction.invoke(LessonAction.OnNavigateUp) },
             modifier = Modifier
                 .padding(WindowInsets.statusBars.asPaddingValues())
                 .align(Alignment.TopStart)
         ) {
             Icon(
                 imageVector = Icons.Default.Close,
-                contentDescription = "Close Lesson",
+                contentDescription = stringResource(id = R.string.close_lesson_desc),
                 tint = Color.White
             )
         }
@@ -69,7 +87,7 @@ fun LessonScreen(
                 .padding(vertical = 48.dp, horizontal = 16.dp)
         ) {
 
-            lesson?.let {
+            uiState.lesson?.let {
                 Text(
                     text = it.title.uppercase(),
                     color = Color.Cyan,
@@ -91,14 +109,25 @@ fun LessonScreen(
                     lineHeight = 20.sp
                 )
 
-                CodeFillView(
-                    template = it.codeTemplate,
-                    blanks = it.blanks,
-                    options = it.options,
-                    correctAnswers = it.correctAnswers,
-                    explanationCorrect = it.explanationCorrect,
-                    explanationIncorrect = it.explanationIncorrect
-                )
+                when (it.type) {
+                    LessonType.MULTIPLE_CHOICE -> MultipleChoiceLessonView(
+                        lesson = it,
+                        onComplete = {
+                            onLessonAction.invoke(LessonAction.OnLessonCompleted)
+                        }
+                    )
+
+                    LessonType.FILL_IN_THE_BLANK -> {
+                        CodeFillView(
+                            lesson = it,
+                            onComplete = {
+                                onLessonAction.invoke(LessonAction.OnLessonCompleted)
+                            }
+                        )
+                    }
+
+                    else -> {}
+                }
             }
         }
     }

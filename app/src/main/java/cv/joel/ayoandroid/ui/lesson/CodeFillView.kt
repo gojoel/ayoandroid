@@ -37,40 +37,41 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cv.joel.ayoandroid.R
+import cv.joel.ayoandroid.data.database.model.Lesson
+import cv.joel.ayoandroid.ui.shared.AyoButton
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun CodeFillView(
-    template: String,
-    blanks: Int,
-    options: List<String>,
-    correctAnswers: List<String>,
-    explanationCorrect: String,
-    explanationIncorrect: String
+    lesson: Lesson,
+    onComplete: () -> Unit,
 ) {
     val userAnswers = remember { mutableStateListOf<String>() }
     val answerMap = remember { mutableStateMapOf<Int, String>() }
-    val availableOptions = remember { mutableStateListOf<String>().apply { addAll(options) } }
+    val availableOptions =
+        remember { mutableStateListOf<String>().apply { addAll(lesson.options) } }
     val showFeedback = remember { mutableStateOf(false) }
     val isCorrect = remember { mutableStateOf(false) }
 
-    if (userAnswers.size < blanks) {
+    if (userAnswers.size < lesson.blanks) {
         LaunchedEffect(Unit) {
             userAnswers.clear()
-            userAnswers.addAll(List(blanks) { "" })
+            userAnswers.addAll(List(lesson.blanks) { "" })
         }
         return
     }
 
     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
         CodeBlock(
-            template = template,
-            blanks = blanks,
+            template = lesson.codeTemplate,
+            blanks = lesson.blanks,
             userAnswers = userAnswers,
             answerMap = answerMap,
             availableOptions = availableOptions,
@@ -78,7 +79,7 @@ fun CodeFillView(
         )
 
         AnswerOptions(
-            options = options,
+            options = lesson.options,
             availableOptions = availableOptions,
             onOptionSelected = { selected ->
                 val firstEmpty = userAnswers.indexOfFirst { it.isBlank() }
@@ -90,30 +91,27 @@ fun CodeFillView(
             }
         )
 
-        Button(
+        AyoButton(
             onClick = {
                 val trimmed = userAnswers.map { it.trim() }
-                isCorrect.value = trimmed == correctAnswers.map { it.trim() }
-                showFeedback.value = true
+                val correct = trimmed == lesson.correctAnswers.map { it.trim() }
+                if (correct) {
+                    onComplete()
+                } else {
+                    isCorrect.value = false
+                    showFeedback.value = true
+                }
             },
             modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(8.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF00BCD4),
-                contentColor = Color.White,
-                disabledContainerColor = Color(0xFF00BCD4).copy(alpha = 0.4f), // visible but dimmed
-                disabledContentColor = Color.White.copy(alpha = 0.6f)
-            ),
-            enabled = userAnswers.any { it.isNotBlank() }
-        ) {
-            Text("Submit")
-        }
+            enabled = userAnswers.any { it.isNotBlank() },
+            text = stringResource(id = R.string.submit)
+        )
 
         if (showFeedback.value) {
             FeedbackView(
                 isCorrect = isCorrect.value,
-                explanationCorrect = explanationCorrect,
-                explanationIncorrect = explanationIncorrect
+                explanationCorrect = lesson.explanationCorrect,
+                explanationIncorrect = lesson.explanationIncorrect
             )
         }
     }
@@ -132,7 +130,7 @@ fun CodeBlock(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xFF2E3C5D), RoundedCornerShape(8.dp))
+            .background(Color(0xFF1E2A38), RoundedCornerShape(8.dp))
             .padding(16.dp)
     ) {
         var blankIndex = 0

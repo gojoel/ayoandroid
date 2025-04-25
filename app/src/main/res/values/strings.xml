@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">AyoAndroid</string>
+
+    <string name="submit">Submit</string>
+    <string name="close_lesson_desc">Close Lesson</string>
+    <string name="lesson_complete">Lesson Complete!</string>
+    <string name="lesson_complete_img_desc">Lesson Completed Image</string>
+    <string name="continue_label">Continue</string>
 </resources>

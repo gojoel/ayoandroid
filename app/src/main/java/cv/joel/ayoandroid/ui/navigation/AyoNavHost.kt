@@ -18,8 +18,8 @@ fun AyoNavHost(navController: NavHostController = rememberNavController()) {
             })
         }
         composable(NavRoutes.LESSON) { backStackEntry ->
-            val lessonId = backStackEntry.arguments?.getLong("lessonId") ?: return@composable
-            LessonScreen(lessonId, onBack = {
+            val lessonId = backStackEntry.arguments?.getString("lessonId") ?: return@composable
+            LessonScreen(lessonId.toLong(), onBack = {
                 navController.navigateUp()
             })
         }

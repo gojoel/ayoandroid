@@ -195,7 +195,9 @@ fun HomeScreen(onLessonClick: (Long) -> Unit) {
                             title = lesson.title,
                             isUnlocked = index == uiState.currentLessonIndex,
                             isCompleted = lesson.completed,
-                            onClick = { onLessonClick(lesson.id) }
+                            onClick = {
+                                onLessonClick(lesson.id)
+                            }
                         )
                     }
                 }

@@ -3,7 +3,7 @@
     "id": 0,
     "index": 0,
     "unitId": 0,
-    "completed": false,
+    "completed": true,
     "title": "Writing Your First Kotlin Function",
     "type": "fill_in_the_blank",
     "objective": "Understand Kotlin function syntax and string interpolation.",
@@ -21,6 +21,29 @@
       "fun",
       "name",
       "name"
+    ],
+    "explanationCorrect": "🚀 Great job! You wrote your first function!",
+    "explanationIncorrect": "🤔 Not quite. Remember: start with `fun`, define a parameter, and use `$name` inside the string."
+  },
+  {
+    "id": 1,
+    "index": 1,
+    "unitId": 0,
+    "completed": false,
+    "title": "What is the output of this code?",
+    "type": "multiple_choice",
+    "objective": "Understand the behavior of `map` and `filter` on a Kotlin list.",
+    "prompt": "Examine the following code snippet and select the correct output.",
+    "codeTemplate": "val result = listOf(1, 2, 3).map { it * 2 }.filter { it > 2 }\nprintln(result)",
+    "blanks": 0,
+    "options": [
+      "[2, 4, 6]",
+      "[4, 6]",
+      "[2]",
+      "[6]"
+    ],
+    "correctAnswers": [
+      "[4, 6]"
     ],
     "explanationCorrect": "🚀 Great job! You wrote your first function!",
     "explanationIncorrect": "🤔 Not quite. Remember: start with `fun`, define a parameter, and use `$name` inside the string."
